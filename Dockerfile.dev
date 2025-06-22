@@ -1,11 +1,14 @@
 FROM node:alpine
 
-WORKDIR '/app'
+# Add build tools needed for Babel/Jest packages
+RUN apk add --no-cache python3 make g++
+
+WORKDIR /app
 
 COPY package.json .
 RUN npm install
 
 COPY . .
 
-CMD ["npm","run","start"]
-
+# Run tests once with coverage (good for CI or local test runs)
+CMD ["npm", "run", "test", "--", "--watchAll=false", "--coverage"]
