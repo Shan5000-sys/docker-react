@@ -5,11 +5,9 @@ services:
   - docker
 
 before_install:
-  # Build Docker image using your development Dockerfile
   - docker build -t shan1500/docker-react -f Dockerfile.dev .
 
 script:
-  # Run tests in CI mode and output coverage report
   - docker run -e CI=true shan1500/docker-react npm run test -- --coverage
 
 deploy: 
@@ -17,11 +15,11 @@ deploy:
   region: "ca-central-1"
   app: "docker"
   env: "Docker-env"
-  bucket-name: "elasticbeanstalk-ca-central-1-050752626387"
-  bucker_path: "docker"
+  bucket_name: "elasticbeanstalk-ca-central-1-050752626387"
+  bucket_path: "docker"
   on:
     branch: main
-  access_key_id: $AWS_ACCESS_KEY
+  access_key_id: "$AWS_ACCESS_KEY"
   secret_access_key: "$AWS_SECRET_KEY"
   
     
