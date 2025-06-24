@@ -25,7 +25,7 @@ jobs:
       - name: Zip app for deployment
         run: zip -r app.zip .
 
-      - name: Deploy to Elastic Beanstalk
+        - name: Deploy to Elastic Beanstalk
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
@@ -34,9 +34,9 @@ jobs:
           aws s3 cp app.zip s3://elasticbeanstalk-ca-central-1-050752626387/docker/app.zip
           VERSION_LABEL="v-${{ github.run_id }}"
           aws elasticbeanstalk create-application-version \
-            --application-name docker \
+            --application-name frontend \
             --version-label $VERSION_LABEL \
             --source-bundle S3Bucket=elasticbeanstalk-ca-central-1-050752626387,S3Key=docker/app.zip
           aws elasticbeanstalk update-environment \
-            --environment-name Docker-env \
+            --environment-name Frontend-env \
             --version-label $VERSION_LABEL
